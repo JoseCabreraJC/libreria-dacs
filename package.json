@@ -1,6 +1,6 @@
 {
   "name": "dacs-integrador-g5",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Small library for a practical work in a UTN subject dacs-integrador-g5",
   "main": "index.js",
   "scripts": {
