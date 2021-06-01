@@ -1,7 +1,24 @@
 const axios = require("axios").default;
 
+const registroMinisterio = (
+  url = "http://localhost:3000/api/singup",
+  datos
+) => {
+  const registrado = new Promise((resolve, reject) => {
+    axios
+      .post(url, datos)
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+  return registrado;
+};
+
 const iniciarSesionMinisterio = (
-  url = "http://localhost:3000/login",
+  url = "http://localhost:3000/api/login",
   usuario,
   contra
 ) => {
@@ -21,7 +38,7 @@ const iniciarSesionMinisterio = (
 };
 
 const getTokenDeMinisterio = (
-  url = "http://localhost:3000/token",
+  url = "http://localhost:3000/api/token",
   usuario,
   contra
 ) => {
@@ -39,12 +56,19 @@ const getTokenDeMinisterio = (
 };
 
 const sendReportesAlMinisterio = (
-  url = "http://localhost:3000/ministerio",
-  reporte
+  url = "http://localhost:3000/api/reports",
+  reporte,
+  token
 ) => {
+  let config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
   const respuesta = new Promise((resolve, reject) => {
     axios
-      .post(url, reporte)
+      .post(url, reporte, config)
       .then(response => {
         resolve(response.data);
         // handle success
@@ -58,7 +82,7 @@ const sendReportesAlMinisterio = (
 };
 
 const consultarEstadoASecretaria = (
-  url = "http://localhost:3000/secretaria",
+  url = "http://localhost:3000/api/secretaria",
   token
 ) => {
   let config = {
@@ -86,6 +110,7 @@ const consultarEstadoASecretaria = (
 // sendReportesAlMinisterio({ nombre: "nombre" });
 
 module.exports = {
+  registroMinisterio,
   iniciarSesionMinisterio,
   sendReportesAlMinisterio,
   getTokenDeMinisterio,
