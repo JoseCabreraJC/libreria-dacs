@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 
 const registroMinisterio = (
-  url = "http://localhost:3000/api/singup",
+  url = "http://localhost:3000/api/signup",
   datos
 ) => {
   const registrado = new Promise((resolve, reject) => {
@@ -19,13 +19,16 @@ const registroMinisterio = (
 
 const iniciarSesionMinisterio = (
   url = "http://localhost:3000/api/login",
-  usuario,
-  contra
+  email,
+  password
 ) => {
+  let body = { email, password };
   const autenticado = new Promise((resolve, reject) => {
     axios
-      .post(url, {}, { auth: { username: usuario, password: contra } })
+      .post(url, body, { auth: { username: email, password: password } })
       .then(response => {
+        // console.log('dentro del response de la liberria');
+        // console.log(response);
         resolve(response.data);
       })
       .catch(error => {
@@ -33,7 +36,6 @@ const iniciarSesionMinisterio = (
         reject(`${error}`);
       });
   });
-
   return autenticado;
 };
 
