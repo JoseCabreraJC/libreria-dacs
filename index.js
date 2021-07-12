@@ -25,36 +25,19 @@ const iniciarSesionMinisterio = (
   let body = { email, password };
   const autenticado = new Promise((resolve, reject) => {
     axios
-      .post(url, body, { auth: { username: email, password: password } })
+      .post(url, body)
       .then(response => {
-        // console.log('dentro del response de la liberria');
-        // console.log(response);
-        resolve(response.data);
+        //console.log('dentro del response de la liberria');
+        //console.log(response);
+        resolve(response.headers['token']);
+      
       })
       .catch(error => {
-        // console.log(error);
+        console.log(error);
         reject(`${error}`);
       });
   });
   return autenticado;
-};
-
-const getTokenDeMinisterio = (
-  url = "http://localhost:3000/api/token",
-  usuario,
-  contra
-) => {
-  const token = new Promise((resolve, reject) => {
-    axios
-      .get(url, { auth: { username: usuario, password: contra } })
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-  return token;
 };
 
 const sendReportesAlMinisterio = (
@@ -82,6 +65,34 @@ const sendReportesAlMinisterio = (
   });
   return respuesta;
 };
+
+const getReportesMinisterio = (
+  url = "http://localhost:3000/api/reports",
+  token
+) => {
+  let config = {
+    headers: {
+      token: token,
+    },
+  };
+
+  const respuesta = new Promise((resolve, reject) => {
+    axios
+      .get(url, config)
+      .then(response => {
+        //console.log("ESTOY EN GET REPORTES AAAAAAAAAAAAAAAAAAA")
+        //console.log(response);
+        resolve(response.data);
+        // handle success
+      })
+      .catch(error => {
+        // handle error
+        reject(error);
+      });
+  });
+  return respuesta;
+}
+
 
 const consultarEstadoASecretaria = (
   url = "http://localhost:3000/api/secretaria",
@@ -114,7 +125,7 @@ const consultarEstadoASecretaria = (
 module.exports = {
   registroMinisterio,
   iniciarSesionMinisterio,
+  getReportesMinisterio,
   sendReportesAlMinisterio,
-  getTokenDeMinisterio,
   consultarEstadoASecretaria,
 };
