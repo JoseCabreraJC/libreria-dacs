@@ -47,7 +47,7 @@ const sendReportesAlMinisterio = (
 ) => {
   let config = {
     headers: {
-      Authorization: "Bearer " + token,
+      token: token
     },
   };
 
@@ -80,8 +80,6 @@ const getReportesMinisterio = (
     axios
       .get(url, config)
       .then(response => {
-        //console.log("ESTOY EN GET REPORTES AAAAAAAAAAAAAAAAAAA")
-        //console.log(response);
         resolve(response.data);
         // handle success
       })
@@ -93,14 +91,13 @@ const getReportesMinisterio = (
   return respuesta;
 }
 
-
 const consultarEstadoASecretaria = (
   url = "http://localhost:3000/api/secretaria",
   token
 ) => {
   let config = {
     headers: {
-      Authorization: "Bearer " + token,
+      token: token,
     },
   };
   const estado = new Promise((resolve, reject) => {
