@@ -27,10 +27,7 @@ const iniciarSesionMinisterio = (
     axios
       .post(url, body)
       .then(response => {
-        //console.log('dentro del response de la liberria');
-        //console.log(response);
         resolve(response.headers['token']);
-      
       })
       .catch(error => {
         console.log(error);
@@ -60,7 +57,7 @@ const sendReportesAlMinisterio = (
       })
       .catch(error => {
         // handle error
-        reject(error);
+        reject(error.response.data);
       });
   });
   return respuesta;
@@ -97,7 +94,7 @@ const consultarEstadoASecretaria = (
 ) => {
   let config = {
     headers: {
-      token: token,
+      Authorization: token,
     },
   };
   const estado = new Promise((resolve, reject) => {
@@ -105,8 +102,7 @@ const consultarEstadoASecretaria = (
       .get(url, config)
       .then(response => {
         // handle success
-        console.log(response.data);
-        resolve(response.data.incumpliendo);
+        resolve(response.data.data);
       })
       .catch(error => {
         // handle error
@@ -116,8 +112,6 @@ const consultarEstadoASecretaria = (
   });
   return estado;
 };
-
-// sendReportesAlMinisterio({ nombre: "nombre" });
 
 module.exports = {
   registroMinisterio,
