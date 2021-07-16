@@ -57,6 +57,7 @@ const sendReportesAlMinisterio = (
       })
       .catch(error => {
         // handle error
+        console.log(error.response.data);
         reject(error.response.data);
       });
   });
@@ -102,7 +103,7 @@ const consultarEstadoASecretaria = (
       .get(url, config)
       .then(response => {
         // handle success
-        resolve(response.data.data);
+        resolve(response.data);
       })
       .catch(error => {
         // handle error
